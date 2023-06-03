@@ -23,7 +23,8 @@ public class Skill {
     @OneToOne
     private Tag tag;
 
-    public Skill() {}
+    public Skill() {
+    }
 
     public long getId() {
         return id;

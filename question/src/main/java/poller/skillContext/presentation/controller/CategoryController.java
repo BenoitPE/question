@@ -31,11 +31,6 @@ public class CategoryController {
         this.categoryRepository = categoryRepository;
     }
 
-    @GetMapping("/test")
-    public final String test() {
-        return "Coucou";
-    }
-
     /** updateTagFromCategory method.
      * @param idCategory the category ID
      * @param nameTag the tag name

@@ -6,6 +6,8 @@ import poller.skillContext.domain.model.Category;
 import poller.skillContext.domain.model.Skill;
 import poller.skillContext.domain.model.Tag;
 
+import java.util.List;
+
 @RepositoryRestResource(collectionResourceRel = "skill", path = "skill")
 public interface SkillRepository {
 
@@ -19,8 +21,12 @@ public interface SkillRepository {
     Tag AddTag(@Param("id") long id ,@Param("name") String name,@Param("category")Category category);
     Tag UpdateTagById(@Param("id") long id ,@Param("name") String name,@Param("category")Category category);
     Tag DeleteTagById(@Param("id") long id);
-    Skill GetSkills();
-    Skill AddSkill(@Param("name") long name , @Param("category")Category category, @Param("Tag")Tag tag );
+    List<Skill> GetSkills();
+
+
+
+    Skill GetSkillById(@Param("id") long id);
+    Skill AddSkill(@Param("name") String name , @Param("category")Category category, @Param("Tag")Tag tag );
 
 
 
