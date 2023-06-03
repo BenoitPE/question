@@ -2,7 +2,6 @@ package poller.questionContext.domain.service.impl;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import poller.questionContext.domain.model.*;
@@ -16,18 +15,26 @@ import java.util.List;
  */
 @Service
 public class QuestionServiceImpl implements QuestionService {
-    /**The questionRepository.*/
+    /**
+     * The questionRepository.
+     */
     private final transient QuestionRepository questionRepository;
 
-    /**QuestionService constructor.
-     * @param questionRepository the questionRepository*/
+    /**
+     * QuestionService constructor.
+     *
+     * @param questionRepository the questionRepository
+     */
     public QuestionServiceImpl(final QuestionRepository questionRepository) {
         this.questionRepository = questionRepository;
     }
 
-    /** setTag method.
+    /**
+     * setTag method.
+     *
      * @param question the question
-     * @param nameTag the tag name*/
+     * @param nameTag  the tag name
+     */
     public void setTag(final Question question, final String nameTag) {
         final String uri = "http://localhost:8080/tag/search/findTagsByName?name=";
 
@@ -45,8 +52,9 @@ public class QuestionServiceImpl implements QuestionService {
 
     /**
      * updateTag method.
-     * @param question the question
-     * @param content the content
+     *
+     * @param question      the question
+     * @param content       the content
      * @param correctAnswer the correct answer
      */
     public void updateTag(
@@ -59,15 +67,17 @@ public class QuestionServiceImpl implements QuestionService {
 
     /**
      * deleteTag method.
+     *
      * @param question the question
      */
-    public  void deleteTag(
+    public void deleteTag(
             final Question question) {
         question.setIdTag(0);
     }
 
     /**
      * findQuestionsByTag method.
+     *
      * @param tagName the tag name
      * @return a list of Question
      */
