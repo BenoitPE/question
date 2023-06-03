@@ -23,8 +23,6 @@ public class QuestionController {
     /**
      * The questionService.
      */
-    private final transient QuestionService questionService;
-
     private final transient QuestionEventService questionEventService;
 
     /**
@@ -51,7 +49,6 @@ public class QuestionController {
     /**
      * ResponseController constructor.
      *
-     * @param questionService           the questionService
      * @param questionRepository        the questionRepository
      * @param userAnswerService         the userAnswerService
      * @param userAnswerRepository      the userAnswerRepository
@@ -60,14 +57,13 @@ public class QuestionController {
      * @param questionEventService      the questionEventService
      */
     @Autowired
-    public QuestionController(final QuestionService questionService,
+    public QuestionController(
                               final QuestionRepository questionRepository,
                               final UserAnswerService userAnswerService,
                               final UserAnswerRepository userAnswerRepository,
                               final PendingResponseRepository pendingResponseRepository,
                               final PendingResponseService pendingResponseService,
                               final QuestionEventService questionEventService) {
-        this.questionService = questionService;
         this.questionRepository = questionRepository;
         this.userAnswerService = userAnswerService;
         this.userAnswerRepository = userAnswerRepository;
@@ -110,7 +106,7 @@ public class QuestionController {
             @RequestParam final long questionId,
             @RequestParam final String nameTag) {
         final Question question = questionRepository.findQuestionById(questionId);
-        questionService.setTag(question, nameTag);
+        questionEventService.setTag(question, nameTag);
         questionRepository.save(question);
     }
 
@@ -127,7 +123,7 @@ public class QuestionController {
             @RequestParam final String content,
             @RequestParam final String correctAnswer) {
         final Question question = questionRepository.findQuestionById(questionId);
-        questionService.updateTag(question, content, correctAnswer);
+        questionEventService.updateTag(question, content, correctAnswer);
         questionRepository.save(question);
     }
 
@@ -176,7 +172,7 @@ public class QuestionController {
     @PostMapping("/deleteTagFromQuestion")
     private void deleteTagFromQuestion(@RequestParam final long questionId) {
         final Question question = questionRepository.findQuestionById(questionId);
-        questionService.deleteTag(question);
+        questionEventService.deleteTag(question);
         questionRepository.save(question);
     }
 
@@ -208,7 +204,7 @@ public class QuestionController {
      */
     @GetMapping("/findQuestionByTagName")
     public final List<QuestionDTO> findQuestionByTagName(@RequestParam final String tagName) {
-        return QuestionMapper.toDTO(questionService.findQuestionsByTag(tagName));
+        return QuestionMapper.toDTO(questionEventService.findQuestionsByTag(tagName));
     }
 
     /**
@@ -248,8 +244,8 @@ public class QuestionController {
     }
 
     @PostMapping("createQuestion")
-    public void createQuestion(@RequestBody QuestionDTO questionDTO) {
-        questionEventService.createQuestion(questionDTO);
+    public QuestionDTO createQuestion(@RequestBody QuestionDTO questionDTO) {
+        return questionEventService.createQuestion(questionDTO);
     }
 
     @GetMapping("getAllQuestions")

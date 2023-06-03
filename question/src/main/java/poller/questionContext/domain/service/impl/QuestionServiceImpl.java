@@ -4,6 +4,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import poller.questionContext.application.dtos.QuestionDTO;
+import poller.questionContext.application.mappers.QuestionMapper;
+import poller.questionContext.domain.events.QuestionCreatedEvent;
 import poller.questionContext.domain.model.*;
 import poller.questionContext.domain.repository.QuestionRepository;
 import poller.questionContext.domain.service.interfaces.QuestionService;
@@ -91,5 +94,14 @@ public class QuestionServiceImpl implements QuestionService {
 
         final int idTag = Integer.parseInt(String.valueOf(jsonObject.get("id")));
         return questionRepository.findQuestionsByIdTag(idTag);
+    }
+
+    public QuestionDTO createQuestion(QuestionDTO questionDTO) {
+        Question question = new Question();
+        question.setContent(questionDTO.getContent());
+        question.setCorrectAnswer(questionDTO.getCorrectAnswer());
+        questionRepository.save(question);
+
+        return QuestionMapper.toDTO(question);
     }
 }
